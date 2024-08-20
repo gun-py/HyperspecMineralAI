@@ -102,7 +102,7 @@ class LearningRateScheduler(Callback):
         print(f'\nEpoch {epoch+1}: Learning rate is {new_lr:.5f}')
 
 def main():
-    input_file_path = 'your_hyperion_dataset.h5'
+    input_file_path = 'dataset.h5'
     output_file_path = 'filtered_and_reduced_data.tif'
     metadata = {
         'x_min': 0, 

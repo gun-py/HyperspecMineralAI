@@ -12,9 +12,6 @@ from rasterio.transform import from_origin
 from rasterio.crs import CRS
 import cupy as cp
 
-# Initialize Logging
-logging.basicConfig(filename='hyperspectral_data_processing.log', level=logging.INFO, format='%(asctime)s - %(message)s')
-
 class HyperspectralDataProcessor:
     def __init__(self, file_path: str, use_gpu=False):
         self.file_path = file_path
@@ -88,7 +85,7 @@ class HyperspectralDataProcessor:
         return output_file_path
 
 def main():
-    input_file_path = 'your_hyperion_dataset.h5'
+    input_file_path = 'dataset.h5'
     output_file_path = 'filtered_and_reduced_data.tif'
     metadata = {
         'x_min': 0, 

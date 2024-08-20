@@ -8,8 +8,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.optimizers import Adam
 
-logging.basicConfig(filename='mnf_transform_advanced.log', level=logging.INFO, format='%(asctime)s - %(message)s')
-
 class DataPreprocessor:
     def __init__(self, data):
         self.data = data
@@ -161,7 +159,7 @@ class MNFProcessor:
         return denoised_data
 
 if __name__ == '__main__':
-    hyperspectral_data = load_hyperspectral_data('hyperion_data.e01')  # Placeholder for actual data loading function
+    hyperspectral_data = load_hyperspectral_data('hyperion_data.e01')  
     processor = MNFProcessor(hyperspectral_data, use_gpu=True)
     result = processor.process()
-    save_denoised_data(result, 'denoised_hyperion_data.e01')  # Placeholder for actual save function
+    save_denoised_data(result, 'denoised_hyperion_data.e01') 

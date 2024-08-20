@@ -6,8 +6,6 @@ import logging
 from sklearn.ensemble import IsolationForest
 import cupy as cp
 
-logging.basicConfig(filename='ndvi_calculation.log', level=logging.INFO, format='%(asctime)s - %(message)s')
-
 class RadiometricCalibration:
     ESUN = {
         'Band_29': 1549.0,

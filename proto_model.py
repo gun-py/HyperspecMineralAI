@@ -195,10 +195,3 @@ def create_autoencoder(input_shape: Tuple[int]) -> Model:
     decoded = Dense(np.prod(input_shape), activation='sigmoid')(x)
     decoded = Reshape(input_shape)(decoded)
     return Model(inputs=input_layer, outputs=decoded)
-
-def composite_loss(margin=1.0, lambda_reg=0.01):
-    def loss(y_true, y_pred):
-        contrastive = K.mean(y_true * K.square(y_pred) + (1 - y_true) * K.square(K.maximum(margin - y_pred, 0)), axis=-1)
-        regularization = lambda_reg * K.sum(K.square(K.concatenate([K.get_value(layer.kernel) for layer in model.layers if hasattr(layer, 'kernel')], axis=0)))
-        return contrastive + regularization
-    return loss

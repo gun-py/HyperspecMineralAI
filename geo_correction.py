@@ -33,7 +33,6 @@ class GeometricCorrection:
             y_corr = self.transformation_params['scale_y'] * y + self.transformation_params['shift_y']
 
         elif self.transformation_params['method'] == 'spline':
-            # Implement spline-based transformation
             x_corr, y_corr = self.spline_transformation(x, y)
         
         else:
@@ -41,9 +40,6 @@ class GeometricCorrection:
 
         return x_corr, y_corr
 
-    def spline_transformation(self, x, y):
-        # Placeholder for spline-based transformation logic
-        return x, y  # Implement actual spline logic
 
 class BicubicInterpolator:
     def interpolate(self, x, y, band_data):
@@ -54,10 +50,8 @@ class BicubicInterpolator:
             x_diff = x - x_floor
             y_diff = y - y_floor
 
-            # 4x4 neighborhood for bicubic interpolation
             neighborhood = band_data[y_floor-1:y_floor+3, x_floor-1:x_floor+3]
 
-            # Bicubic interpolation using scipy's map_coordinates
             interpolated_value = map_coordinates(neighborhood, [[y_diff], [x_diff]], order=3, mode='reflect')
             return interpolated_value
         else:
@@ -87,7 +81,6 @@ class GeometricCorrectionProcessor:
         num_bands = rasterio.open(self.input_file).count
         output_image = np.zeros((num_bands, output_image_size[1], output_image_size[0]))
 
-        # Parallel processing for each band
         with concurrent.futures.ProcessPoolExecutor() as executor:
             futures = [executor.submit(self.process_band, band_idx, output_image_size)
                        for band_idx in range(num_bands)]
@@ -95,7 +88,6 @@ class GeometricCorrectionProcessor:
             for band_idx, future in enumerate(concurrent.futures.as_completed(futures)):
                 output_image[band_idx] = future.result()
 
-        # Save the corrected image
         self.save_corrected_image(output_image, desired_projection, spatial_extent, output_image_size)
 
     def save_corrected_image(self, output_image, desired_projection, spatial_extent, output_image_size):
@@ -115,22 +107,20 @@ class GeometricCorrectionProcessor:
             with rasterio.open('corrected_output.tif', 'w', **kwargs) as dst:
                 dst.write(output_image.astype(rasterio.float32))
 
-# Main Function
 if __name__ == '__main__':
     input_file = 'hyperion_data.e01'
-    desired_projection = 'EPSG:32633'  # Example projection
-    spatial_extent = [xmin, ymin, xmax, ymax]  # Specify spatial extent
+    desired_projection = 'EPSG:32633' 
+    spatial_extent = [xmin, ymin, xmax, ymax]
     transformation_params = {
         'method': 'polynomial',
         'coefficients': [0.0, 1.0, 0.0, 0.0, 0.0, 0.0,  # X coefficients
                          0.0, 0.0, 1.0, 0.0, 0.0, 0.0],  # Y coefficients
-        # Alternative method: 'affine', 'spline', etc.
         'scale_x': 1.0,
         'scale_y': 1.0,
         'shift_x': 0.0,
         'shift_y': 0.0
     }
-    output_image_size = (1024, 1024)  # Define output image size
+    output_image_size = (1024, 1024) 
 
     processor = GeometricCorrectionProcessor(input_file, transformation_params)
     processor.apply_geometric_correction(desired_projection, spatial_extent, output_image_size)

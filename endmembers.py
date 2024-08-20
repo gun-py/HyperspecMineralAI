@@ -8,8 +8,6 @@ import logging
 from numba import cuda
 import cv2
 
-logging.basicConfig(filename='ppi_calculation_advanced.log', level=logging.INFO, format='%(asctime)s - %(message)s')
-
 class SpectralAnalyzer:
     def __init__(self, data):
         self.data = data

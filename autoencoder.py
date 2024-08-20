@@ -14,8 +14,6 @@ from typing import List, Tuple, Dict
 from tensorflow.keras.layers import Input, Dense
 from tensorflow.keras.models import Model
 
-logging.basicConfig(filename='data_processing_advanced.log', level=logging.INFO, format='%(asctime)s - %(message)s')
-
 class Autoencoder:
     def __init__(self, input_dim: int, encoding_dim: int):
         self.input_dim = input_dim
@@ -145,7 +143,7 @@ class HyperspectralDataProcessor:
         return output_file_path
 
 def main():
-    input_file_path = 'your_hyperion_dataset.npz'
+    input_file_path = 'dataset.npz'
     output_file_path = 'filtered_and_reduced_data.npz'
     num_endmembers = 10
 

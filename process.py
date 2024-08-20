@@ -11,10 +11,7 @@ from skimage.filters import anisotropic_diffusion
 import logging
 import h5py
 
-# Initialize Logging
-logging.basicConfig(filename='data_processing_siamese.log', level=logging.INFO, format='%(asctime)s - %(message)s')
 
-# Deep Autoencoder Model
 class Autoencoder:
     def __init__(self, input_dim, encoding_dim):
         self.input_dim = input_dim
@@ -36,7 +33,7 @@ class Autoencoder:
     def transform(self, data):
         return self.encoder.predict(data)
 
-# Hyperspectral Data Processor
+
 class HyperspectralDataProcessor:
     def __init__(self, file_path: str, use_gpu=False):
         self.file_path = file_path
@@ -48,8 +45,8 @@ class HyperspectralDataProcessor:
 
     def open_dataset(self):
         logging.info(f"Opening dataset: {self.file_path}")
-        self.dataset = h5py.File(self.file_path, 'r')  # Assuming HDF5 format for data
-        self.hyperspectral_data = self.dataset['data'][:]  # Adjust based on actual data structure
+        self.dataset = h5py.File(self.file_path, 'r') 
+        self.hyperspectral_data = self.dataset['data'][:]
         logging.info("Dataset opened successfully")
 
     def close_dataset(self):
